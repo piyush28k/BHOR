@@ -9,7 +9,6 @@ import { uploadImage } from '../controller/upload.controller.js'; // Import the 
 
 const router = express.Router();
 
-// --- Configure Cloudinary and Multer ---
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -25,13 +24,7 @@ const storage = new CloudinaryStorage({
 });
 
 const upload = multer({ storage: storage });
-// --- End Configuration ---
 
-
-// Define the POST route.
-// 1. The request hits '/upload'.
-// 2. The 'upload.single()' middleware processes the file and sends it to Cloudinary.
-// 3. If successful, it passes control to the 'uploadImage' controller function.
 router.post('/upload', upload.single('myImage'), uploadImage);
 
 export default router;

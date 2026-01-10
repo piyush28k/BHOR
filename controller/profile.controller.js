@@ -110,7 +110,7 @@ export const deleteGig = async (req, res) => {
   try {
     const { id, userId } = req.body;
 
-    if (!id || !user) return res.status(400).json("id or userId not found");
+    if (!id || !userId) return res.status(400).json("id or userId not found");
     const profile = await profileModel.findOne({ userId });
     if (!profile) {
       return res.status(404).json({ msg: "profile not found" });

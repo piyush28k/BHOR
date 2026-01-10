@@ -18,7 +18,7 @@ export const register = async (req, res) => {
 
     await user.save(); // Save user before creating profile to get _id
 
-    const profile = new Profile({userId: user._id, name,email,photo: user.photo || undefined,});
+    const profile = new Profile({userId: user._id, name,email,photo: user.photo || undefined});
     await profile.save();
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
