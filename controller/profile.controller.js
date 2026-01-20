@@ -22,14 +22,42 @@ export const getProfile = async (req, res) => {
 };
 
 export const allProfiles = async (req, res) => {
+  const { user, service, location } = req.body;
+  console.log(service)
+  const limit = parseInt(req.query.limit);
+  const page = parseInt(req.query.page);
+
+  const filter = {}
+  if(location){
+    filter.location = location
+  }
+  if(service){
+    filter.title = service
+  }
+
+  const skip = (page - 1) * limit;
   try {
-    const profiles = await profileModel.find();
-    res.json(profiles);
+    const total = await profileModel.countDocuments();
+    const profiles = await profileModel
+      .find(filter)
+      .skip(skip)
+      .limit(limit);
+    const data = profiles.filter((p) => {
+      if (p.userId.toString() !== user) return true;
+    });
+    res.json({ data, totalPage: Math.ceil(total / limit), page });
   } catch (error) {
     console.error("Error fetching profiles:", error);
     res.status(500).json({ msg: "Server error" });
   }
 };
+
+// const result = datas.filter((data) => {
+//       const res = service ? data.title?.toLowerCase().includes(service.toLowerCase()) : true;
+//       const loc = location ? data.location?.toLowerCase().includes(location.toLowerCase()) : true;
+//       console.log("res: "+ res,"loc: "+ loc)
+//       return res && loc;
+//     });
 
 export const updateProfile = async (req, res) => {
   try {
@@ -65,7 +93,7 @@ export const updateProfile = async (req, res) => {
         education,
         certifications,
       },
-      { new: true }
+      { new: true },
     );
 
     if (!updatedProfile) {
@@ -115,12 +143,12 @@ export const deleteGig = async (req, res) => {
     if (!profile) {
       return res.status(404).json({ msg: "profile not found" });
     }
-    profile.gigs = profile.gigs.filter((gig)=>(gig._id.toString()!==id))
-    await profile.save()
+    profile.gigs = profile.gigs.filter((gig) => gig._id.toString() !== id);
+    await profile.save();
 
-    return res.status(200).json({meg:"delete success"})
+    return res.status(200).json({ meg: "delete success" });
   } catch (err) {
-    console.error("delete fail due to server error", err)
-    return res.status(500).json({msg:"server error"})
+    console.error("delete fail due to server error", err);
+    return res.status(500).json({ msg: "server error" });
   }
 };

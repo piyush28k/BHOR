@@ -7,6 +7,6 @@ route.post('/getprofile', getProfile);
 route.post('/addgig',addGigs)
 route.post('/deletegig',deleteGig)
 route.put('/updateprofile', updateProfile);
-route.get('/allprofiles', allProfiles);
+route.post('/allprofiles', allProfiles);
 
 export default route;
