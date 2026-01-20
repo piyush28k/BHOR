@@ -27,7 +27,7 @@ export const allProfiles = async (req, res) => {
   const limit = parseInt(req.query.limit);
   const page = parseInt(req.query.page);
 
-  const filter = {}
+  const filter = {userId: { $ne: user }}
   if(location){
     filter.location = location
   }
@@ -37,15 +37,13 @@ export const allProfiles = async (req, res) => {
 
   const skip = (page - 1) * limit;
   try {
-    const total = await profileModel.countDocuments();
+    const total = await profileModel.countDocuments(filter);
     const profiles = await profileModel
       .find(filter)
       .skip(skip)
       .limit(limit);
-    const data = profiles.filter((p) => {
-      if (p.userId.toString() !== user) return true;
-    });
-    res.json({ data, totalPage: Math.ceil(total / limit), page });
+    
+    res.json({ data:profiles, totalPage: Math.ceil(total / limit), page, total });
   } catch (error) {
     console.error("Error fetching profiles:", error);
     res.status(500).json({ msg: "Server error" });
