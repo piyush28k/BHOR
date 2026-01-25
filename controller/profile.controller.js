@@ -108,7 +108,6 @@ export const updateProfile = async (req, res) => {
 export const addGigs = async (req, res) => {
   try {
     const { userId, title, photo, description, price, deliveryDate } = req.body;
-    console.log(userId);
 
     if (!userId || !title || !description || !price || !deliveryDate) {
       return res.status(400).json({ msg: "All fields are required" });

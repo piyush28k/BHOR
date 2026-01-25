@@ -8,6 +8,7 @@ import userRoute from './routes/user.route.js';
 import profileRoute from './routes/profile.route.js';
 import uploadRoute from './routes/upload.route.js';
 import chatRoute from './routes/chat.route.js'
+import postRoute from './routes/post.routes.js'
 
 import http from 'http'
 import { Server } from 'socket.io';
@@ -53,6 +54,7 @@ app.use('/user', userRoute);
 app.use('/profile', profileRoute);
 app.use('/api', uploadRoute);
 app.use('/chat', chatRoute);
+app.use('/post', postRoute);
 
 server.listen(PORT,'0.0.0.0',()=>{
     console.log('running on port', PORT);
