@@ -4,11 +4,12 @@ const messageSchema = mongoose.Schema(
   {
     room: String,
     sender:String,
+    receiver:String,
+    senderName:String,
     message:String,
+    link:String
   },
-  {
-    Timestamp: true,
-  }
+  { timestamps: true }
 );
 
 const Message = mongoose.model("Message", messageSchema);

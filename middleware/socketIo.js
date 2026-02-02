@@ -1,6 +1,6 @@
 const socketIo = (io) => {
   io.on("connection", (socket) => {
-    console.log("user connected ", socket.id);
+    // console.log("user connected ", socket.id);
 
     socket.on("join_room", (data) => {
       socket.join(data);
@@ -13,7 +13,7 @@ const socketIo = (io) => {
     });
 
     socket.on("disconnect", () => {
-      console.log("User Disconnected", socket.id);
+      // console.log("User Disconnected", socket.id);
     });
   });
 };
