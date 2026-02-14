@@ -10,12 +10,12 @@ export const getPost = async (req,res)=>{
 }
 
 export const addPost = async (req,res)=>{
-    const {image,name,link,cont} = req.body
+    const {image,profileImg,username,link,text,title} = req.body
 
-    if(!image || !link || !name || !cont) return res.status(400).json({mgs:"incomplete data"})
+    if( !link || !username || !text ) return res.status(400).json({mgs:"incomplete data"})
 
     try{
-        const post = new PostModel({image,name,link,post:cont})
+        const post = new PostModel({image,profileImg,username,link,text,title})
         await post.save()
 
         res.status(200).json({mgs:"post add success"})
